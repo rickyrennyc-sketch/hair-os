@@ -1,0 +1,1 @@
+HairFormula™ page presenting the static hair color engine outputs adhering to Hair OS™ Apple-like style, with color formulas and minimal, clean interactions.
