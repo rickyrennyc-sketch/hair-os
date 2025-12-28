@@ -1,1 +1,9 @@
-HairVision™ Upload / Camera page allowing photo input or placeholder camera functionality, adhering to the Hair OS™ spec and theme.
+export default function VisionPage() {
+  return (
+    <>
+      <h1>HairVision™</h1>
+      <p>AI visual simulation for hairstyle, color, and vibe.</p>
+      <p><a href="/vision/results">View Results →</a></p>
+    </>
+  );
+}
