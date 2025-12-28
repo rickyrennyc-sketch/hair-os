@@ -1,17 +1,13 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-const SalonPage = () => {
-  const navigate = useNavigate();
-
+export default function SalonPage() {
   return (
-    <div className="salon-container">
+    <>
       <h1>SalonPro™</h1>
-      <button className="btn" onClick={() => navigate("/salon/clients")}>View Clients</button>
-      <button className="btn" onClick={() => navigate("/salon/formulas")}>View Formulas</button>
-      <button className="btn" onClick={() => navigate("/salon/sop")}>View SOP</button>
-    </div>
+      <p>Professional tools for salon operations.</p>
+      <ul>
+        <li><a href="/salon/clients">Clients</a></li>
+        <li><a href="/salon/formulas">Formulas</a></li>
+        <li><a href="/salon/sop">SOP</a></li>
+      </ul>
+    </>
   );
-};
-
-export default SalonPage;
+}
