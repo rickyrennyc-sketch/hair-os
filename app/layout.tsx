@@ -1,7 +1,6 @@
-import "./globals.css";
-
 export const metadata = {
-  title: "Hair OS™"
+  title: "Hair OS™",
+  description: "Apple-like Hair OS™ home for HairVision™, HairFormula™, SalonPro™",
 };
 
 export default function RootLayout({
@@ -10,7 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="zh-HK">
       <body>{children}</body>
     </html>
   );
