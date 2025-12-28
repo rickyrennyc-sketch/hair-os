@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export const metadata = {
   title: "Hair OS™",
   description: "Apple-like Hair OS™ home for HairVision™, HairFormula™, SalonPro™",
