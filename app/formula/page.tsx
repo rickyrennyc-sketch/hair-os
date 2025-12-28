@@ -1,1 +1,8 @@
-HairFormula™ page presenting the static hair color engine outputs adhering to Hair OS™ Apple-like style, with color formulas and minimal, clean interactions.
+export default function FormulaPage() {
+  return (
+    <>
+      <h1>HairFormula™</h1>
+      <p>Turn target color into real, executable salon formulas.</p>
+    </>
+  );
+}
