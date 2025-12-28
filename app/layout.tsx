@@ -1,9 +1,5 @@
 import "./globals.css";
-
-export const metadata = {
-  title: "Hair OS™",
-  description: "Apple-like Hair OS™",
-};
+import React from "react";
 
 export default function RootLayout({
   children,
@@ -11,16 +7,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-HK" style={{ background: "#0b0b0f" }}>
-      <body
-        style={{
-          margin: 0,
-          minHeight: "100vh",
-          background: "#0b0b0f",
-          color: "#f5f7ff",
-        }}
-      >
-        {children}
+    <html lang="en">
+      <body>
+        <header className="header">
+          <a href="/" className="logo">Hair OS™</a>
+          <nav className="nav">
+            <a href="/vision">Vision</a>
+            <a href="/formula">Formula</a>
+            <a href="/salon">Salon</a>
+            <a href="/aftercare">Aftercare</a>
+          </nav>
+        </header>
+
+        <main className="container">{children}</main>
+
+        <footer className="footer">
+          © {new Date().getFullYear()} Hair OS™
+        </footer>
       </body>
     </html>
   );
