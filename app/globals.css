@@ -317,3 +317,263 @@ button{ font:inherit; }
   font-size:12px;
   text-align:center;
 }
+/* ---------- Hair OS™ UI (safe static) ---------- */
+.shell{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 18px 48px;
+}
+
+.top{
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.brand{
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.dot{
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(130,255,214,.8);
+  box-shadow: 0 0 24px rgba(130,255,214,.35);
+  margin-top: 6px;
+}
+
+.kicker{
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  opacity: .75;
+}
+
+.title{
+  font-size: 44px;
+  line-height: 1.05;
+  margin: 8px 0 10px;
+}
+
+.subtitle{
+  max-width: 640px;
+  opacity: .78;
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.ctaRow{
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(10px);
+}
+
+.btn.primary{
+  border-color: rgba(130,255,214,.22);
+  background: rgba(130,255,214,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.btn.ghost{
+  background: rgba(255,255,255,.03);
+}
+
+.heroCard{
+  margin-top: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+}
+
+.heroLeft{
+  padding: 22px 22px 24px;
+}
+
+.pill{
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.03);
+  font-size: 12px;
+  opacity: .85;
+}
+
+.h2{
+  margin: 12px 0 10px;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.p{
+  margin: 0;
+  opacity: .78;
+  line-height: 1.55;
+}
+
+.miniGrid{
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.mini{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.18);
+  border-radius: 14px;
+  padding: 10px 10px 12px;
+}
+
+.miniLabel{
+  font-size: 12px;
+  opacity: .7;
+}
+
+.miniValue{
+  margin-top: 6px;
+  font-size: 14px;
+  letter-spacing: .02em;
+}
+
+.heroRight{
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glassFrame{
+  width: 100%;
+  max-width: 320px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.glassGlow{
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 40% 40%, rgba(130,255,214,.22), transparent 55%),
+              radial-gradient(circle at 70% 20%, rgba(90,115,255,.18), transparent 55%),
+              radial-gradient(circle at 60% 80%, rgba(255,215,120,.10), transparent 60%);
+  filter: blur(10px);
+}
+
+.glassContent{
+  position: relative;
+  padding: 16px 16px 14px;
+}
+
+.mirrorTitle{
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.mirrorSub{
+  margin-top: 2px;
+  font-size: 12px;
+  opacity: .7;
+}
+
+.barRow{
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.barLabel{
+  font-size: 12px;
+  opacity: .72;
+}
+
+.bar{
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.18);
+  overflow: hidden;
+}
+
+.bar span{
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: rgba(130,255,214,.55);
+}
+
+.mirrorNote{
+  margin-top: 14px;
+  font-size: 12px;
+  opacity: .65;
+}
+
+.section{
+  margin-top: 22px;
+}
+
+.sectionHead{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.h3{
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: .9;
+}
+
+.muted{
+  opacity: .65;
+  font-size: 13px;
+}
+
+.grid{
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card{
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  text-decoration: none;
+  color
