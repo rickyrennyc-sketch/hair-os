@@ -1,30 +1,19 @@
-import "./globals.css";
-import React from "react";
+import { Metadata } from "next";
+import "styles/globals.css";
 
-export default function RootLayout({
-  children,
-}: {
+export const metadata: Metadata = {
+  title: "HairOS",
+  description: "Modern hair salon management software",
+};
+
+type RootLayoutProps = {
   children: React.ReactNode;
-}) {
+};
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body>
-        <header className="header">
-          <a href="/" className="logo">Hair OS™</a>
-          <nav className="nav">
-            <a href="/vision">Vision</a>
-            <a href="/formula">Formula</a>
-            <a href="/salon">Salon</a>
-            <a href="/aftercare">Aftercare</a>
-          </nav>
-        </header>
-
-        <main className="container">{children}</main>
-
-        <footer className="footer">
-          © {new Date().getFullYear()} Hair OS™
-        </footer>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
