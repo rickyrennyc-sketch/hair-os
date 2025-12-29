@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function VisionResultsPage() {
   const [coins, setCoins] = useState(0);
   const [showToast, setShowToast] = useState(false);
 
   const handleShare = async () => {
+    let shareSucceeded = false;
+    
     // Try native share API
     if (navigator.share) {
       try {
@@ -15,26 +17,38 @@ export default function VisionResultsPage() {
           text: 'Check out my new hair look from Hair OS!',
           url: window.location.href,
         });
+        shareSucceeded = true;
       } catch (err) {
         // User cancelled or error occurred
         if ((err as Error).name !== 'AbortError') {
           alert('Look shared');
+          shareSucceeded = true;
         }
+        // If AbortError, user cancelled, don't award coin
       }
     } else {
       // Fallback for browsers that don't support share API
       alert('Look shared');
+      shareSucceeded = true;
     }
 
-    // Award coin and show toast
-    setCoins(prev => prev + 1);
-    setShowToast(true);
-    
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
+    // Only award coin if sharing succeeded
+    if (shareSucceeded) {
+      setCoins(prev => prev + 1);
+      setShowToast(true);
+    }
   };
+
+  // Clean up toast timeout
+  useEffect(() => {
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showToast]);
 
   const handleFindStylist = () => {
     // Placeholder - no functional implementation needed
