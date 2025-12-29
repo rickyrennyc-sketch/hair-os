@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+const ANALYSIS_DURATION = 1500;
+const STYLING_DURATION = 1500;
+
 export default function VisionPage() {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -24,13 +27,13 @@ export default function VisionPage() {
     setIsLoading(true);
     setLoadingStep(1);
 
-    // Step 1: Analyzing your look... (1.5 seconds)
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Step 1: Analyzing your look...
+    await new Promise(resolve => setTimeout(resolve, ANALYSIS_DURATION));
     
     setLoadingStep(2);
     
-    // Step 2: Finding your best style... (1.5 seconds)
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Step 2: Finding your best style...
+    await new Promise(resolve => setTimeout(resolve, STYLING_DURATION));
 
     // Redirect to results
     router.push('/vision/results');
