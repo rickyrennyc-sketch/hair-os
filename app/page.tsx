@@ -1,217 +1,529 @@
+// app/page.tsx
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+type Theme = "light" | "dark";
+type Lang = "en" | "zh";
+
+const TOKENS = {
+  light: {
+    bg: "#FAFAF8",
+    surface: "rgba(17,17,17,0.04)",
+    surface2: "rgba(17,17,17,0.03)",
+    border: "rgba(17,17,17,0.10)",
+    text: "#111111",
+    textSecondary: "rgba(17,17,17,0.70)",
+    muted: "rgba(17,17,17,0.50)",
+  },
+  dark: {
+    bg: "#0E0E0F",
+    surface: "rgba(255,255,255,0.06)",
+    surface2: "rgba(255,255,255,0.04)",
+    border: "rgba(255,255,255,0.12)",
+    text: "#FFFFFF",
+    textSecondary: "rgba(255,255,255,0.75)",
+    muted: "rgba(255,255,255,0.55)",
+  },
+};
+
+const THEME_KEY = "hair_os_theme";
+const LANG_KEY = "hair_os_lang";
+
+const COPY = {
+  en: {
+    eyebrow: "Hair OS™",
+    title: "See your best self — before the cut.",
+    subtitle:
+      "Hair OS is a quiet, confidence-first layer between you and your stylist. It makes your haircut and color direction emotionally clear before anything changes.",
+    body:
+      "Less confusion, fewer screenshots, more alignment. HairVision™ lets you try looks in a calm, private space—then walk into the salon with a shared language instead of guesswork.",
+    primaryCta: "Try HairVision →",
+    secondaryCta: "How it works",
+    modulesTitle: "Core modules",
+    hvTitle: "HairVision™ (Free)",
+    hvDesc:
+      "Upload one photo → get a clean, confidence-first preview in seconds. Built for IG / TikTok UGC and quiet bragging rights.",
+    hvCta: "Start preview",
+    hfTitle: "HairFormula™ (Paid)",
+    hfDesc:
+      "For colorists: formula logic, tonal direction, and guardrails so great hair becomes repeatable, not accidental.",
+    hfCta: "View details",
+    spTitle: "SalonPro™ (Paid)",
+    spDesc:
+      "For salons: from first DM to long-term follow-up, a calmer, more predictable client journey.",
+    spCta: "View plans",
+    smallLine:
+      "Built for a quiet-luxury client experience: simple, clear, no clutter.",
+    footerMicro: "Hair, Decoded.",
+    langEn: "EN",
+    langZh: "中文",
+  },
+  zh: {
+    eyebrow: "Hair OS™",
+    title: "在剪之前，看見你最自信的自己。",
+    subtitle:
+      "Hair OS 是你和髮型師之間的一層安靜介面，在任何改變發生之前，先把「情緒上的確定感」放到第一位。",
+    body:
+      "更少猶豫、更少截圖溝通、更多共識。HairVision™ 讓你在私密空間裡先看見不同樣子，再帶著清楚的方向走進 Salon，而不是靠運氣。",
+    primaryCta: "Try HairVision →",
+    secondaryCta: "How it works",
+    modulesTitle: "核心模組",
+    hvTitle: "HairVision™（免費）",
+    hvDesc:
+      "上傳一張相 → 幾秒內得到乾淨、信心優先的視覺預覽。為 IG / TikTok UGC 而生，也為你自己而生。",
+    hvCta: "開始預覽",
+    hfTitle: "HairFormula™（收費）",
+    hfDesc:
+      "給髮型師 / 染髮師：配方邏輯、色彩方向、避雷提醒，讓好效果變得可複製。",
+    hfCta: "了解細節",
+    spTitle: "SalonPro™（收費）",
+    spDesc:
+      "給 Salon 團隊：從第一次私訊到回訪與轉介紹，把每一次服務變得更穩定、可預期。",
+    spCta: "查看方案",
+    smallLine:
+      "為安靜奢華的體驗而設計：簡單、清楚、不打擾。",
+    footerMicro: "Hair, Decoded.",
+    langEn: "EN",
+    langZh: "中文",
+  },
+};
+
 export default function HomePage() {
-  const styles: Record<string, React.CSSProperties> = {
-    page: {
-      padding: "2.25rem 1.25rem 4rem",
-      paddingTop: "5.25rem", // leave space under your root layout header
-      maxWidth: "980px",
-      margin: "0 auto",
-      lineHeight: 1.6,
-    },
-    hero: {
-      display: "grid",
-      gap: "1.25rem",
-      alignItems: "start",
-    },
-    eyebrow: {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: "0.5rem",
-      fontSize: "0.9rem",
-      letterSpacing: "0.02em",
-      opacity: 0.75,
-      margin: 0,
-    },
-    badge: {
-      display: "inline-flex",
-      alignItems: "center",
-      padding: "0.2rem 0.55rem",
-      borderRadius: "999px",
-      border: "1px solid rgba(0,0,0,0.12)",
-      fontSize: "0.8rem",
-      lineHeight: 1,
-      opacity: 0.85,
-    },
-    h1: {
-      margin: 0,
-      fontSize: "3rem",
-      lineHeight: 1.06,
-      letterSpacing: "-0.02em",
-      fontWeight: 700,
-    },
-    sub: {
-      margin: 0,
-      fontSize: "1.05rem",
-      opacity: 0.78,
-      maxWidth: "60ch",
-    },
-    ctaRow: {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: "0.75rem",
-      marginTop: "0.75rem",
-    },
-    primaryBtn: {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "0.5rem",
-      padding: "0.85rem 1.05rem",
-      borderRadius: "12px",
-      border: "1px solid rgba(0,0,0,0.12)",
-      textDecoration: "none",
-      fontSize: "0.95rem",
-      fontWeight: 600,
-      background: "rgba(0,0,0,0.92)",
-      color: "white",
-    },
-    secondaryBtn: {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "0.5rem",
-      padding: "0.85rem 1.05rem",
-      borderRadius: "12px",
-      border: "1px solid rgba(0,0,0,0.12)",
-      textDecoration: "none",
-      fontSize: "0.95rem",
-      fontWeight: 600,
-      background: "rgba(0,0,0,0.04)",
-      color: "rgba(0,0,0,0.92)",
-    },
-    subtle: {
-      marginTop: "0.25rem",
-      fontSize: "0.9rem",
-      opacity: 0.65,
-    },
-    divider: {
-      height: "1px",
-      background: "rgba(0,0,0,0.08)",
-      margin: "2rem 0",
-    },
-    grid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-      gap: "0.9rem",
-      marginTop: "1.25rem",
-    },
-    card: {
-      border: "1px solid rgba(0,0,0,0.10)",
-      borderRadius: "16px",
-      padding: "1rem",
-      background: "rgba(255,255,255,0.7)",
-    },
-    cardTitle: {
-      margin: 0,
-      fontSize: "1rem",
-      fontWeight: 700,
-      letterSpacing: "-0.01em",
-    },
-    cardText: {
-      margin: "0.5rem 0 0",
-      fontSize: "0.95rem",
-      opacity: 0.75,
-    },
-    sectionTitle: {
-      margin: "0 0 0.75rem",
-      fontSize: "1.15rem",
-      fontWeight: 700,
-      letterSpacing: "-0.01em",
-    },
-    list: {
-      margin: 0,
-      paddingLeft: "1.1rem",
-      opacity: 0.78,
-    },
-    footerNote: {
-      marginTop: "2rem",
-      fontSize: "0.9rem",
-      opacity: 0.6,
-    },
-    anchor: { position: "relative", top: "-84px" }, // helps jump links land below header
-  };
+  const [theme, setTheme] = useState<Theme>("dark");
+  const [lang, setLang] = useState<Lang>("en");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const storedTheme = window.localStorage.getItem(THEME_KEY) as Theme | null;
+      const storedLang = window.localStorage.getItem(LANG_KEY) as Lang | null;
+      if (storedTheme === "light" || storedTheme === "dark") {
+        setTheme(storedTheme);
+      }
+      if (storedLang === "en" || storedLang === "zh") {
+        setLang(storedLang);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(THEME_KEY, theme);
+    } catch {
+      // ignore
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(LANG_KEY, lang);
+    } catch {
+      // ignore
+    }
+  }, [lang]);
+
+  const t = TOKENS[theme];
+  const c = COPY[lang];
 
   return (
-    <main style={styles.page}>
-      <section style={styles.hero}>
-        <p style={styles.eyebrow}>
-          <span style={styles.badge}>Hair OS™</span>
-          <span>Apple-like AI Hair Analysis & Consultation System</span>
-        </p>
+    <main
+      style={{
+        minHeight: "100vh",
+        backgroundColor: t.bg,
+        backgroundImage:
+          theme === "dark"
+            ? "radial-gradient(circle at top, rgba(255,255,255,0.08) 0, transparent 55%)"
+            : "radial-gradient(circle at top, rgba(0,0,0,0.03) 0, transparent 55%)",
+        color: t.text,
+        display: "flex",
+        justifyContent: "center",
+        padding: "1.75rem 1.25rem 2.5rem",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1040px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.75rem",
+        }}
+      >
+        <TopBar
+          theme={theme}
+          setTheme={setTheme}
+          lang={lang}
+          setLang={setLang}
+          tokens={t}
+        />
 
-        <h1 style={styles.h1}>See your best self—before the cut.</h1>
-
-        <p style={styles.sub}>
-          Hair OS™ turns a photo + a few answers into a clean, confidence-first
-          consultation: face shape, hair color direction, and a plan you can
-          actually maintain.
-        </p>
-
-        <div style={styles.ctaRow}>
-          <a href="#modules" style={styles.primaryBtn} aria-label="Explore modules">
-            Explore modules →
-          </a>
-          <a href="#how-it-works" style={styles.secondaryBtn} aria-label="How it works">
-            How it works
-          </a>
-        </div>
-
-        <div style={styles.subtle}>
-          Built for a quiet-luxury client experience: simple, clear, no clutter.
-        </div>
-      </section>
-
-      <div style={styles.divider} />
-
-      <div id="modules" style={styles.anchor} />
-      <section>
-        <h2 style={styles.sectionTitle}>Core modules</h2>
-        <div style={styles.grid}>
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>HairVision™</h3>
-            <p style={styles.cardText}>
-              Preview shape + vibe. A clean visual direction before you commit.
-            </p>
+        <section
+          style={{
+            borderRadius: 22,
+            border: `1px solid ${t.border}`,
+            backgroundColor: t.surface,
+            padding: "1.6rem 1.4rem 1.9rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.6rem",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.9rem",
+              maxWidth: "720px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "0.8rem",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: t.muted,
+              }}
+            >
+              {c.eyebrow}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.4rem",
+              }}
+            >
+              <h1
+                style={{
+                  margin: 0,
+                  fontSize: "2.4rem",
+                  lineHeight: 1.18,
+                  fontWeight: 500,
+                  letterSpacing: "-0.04em",
+                }}
+              >
+                {c.title}
+              </h1>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: "0.96rem",
+                  lineHeight: 1.7,
+                  color: t.textSecondary,
+                }}
+              >
+                {c.subtitle}
+              </p>
+            </div>
           </div>
 
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>HairFormula™</h3>
-            <p style={styles.cardText}>
-              Tone and color direction simplified—soft, wearable, expensive-looking.
-            </p>
+          <p
+            style={{
+              margin: 0,
+              marginTop: "0.4rem",
+              fontSize: "0.9rem",
+              lineHeight: 1.8,
+              color: t.textSecondary,
+              maxWidth: "720px",
+            }}
+          >
+            {c.body}
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.8rem",
+              alignItems: "center",
+              marginTop: "0.4rem",
+            }}
+          >
+            <Link
+              href="/vision"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "0.9rem 1.9rem",
+                borderRadius: 999,
+                backgroundColor: t.text,
+                color: theme === "dark" ? "#0E0E0F" : "#FAFAF8",
+                fontSize: "0.92rem",
+                fontWeight: 500,
+                textDecoration: "none",
+              }}
+            >
+              {c.primaryCta}
+            </Link>
+            <button
+              type="button"
+              style={{
+                padding: "0.82rem 1.3rem",
+                borderRadius: 999,
+                border: `1px solid ${t.border}`,
+                backgroundColor: t.surface2,
+                color: t.textSecondary,
+                fontSize: "0.86rem",
+                fontWeight: 400,
+                cursor: "default",
+              }}
+            >
+              {c.secondaryCta}
+            </button>
           </div>
+        </section>
 
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>SalonPro™</h3>
-            <p style={styles.cardText}>
-              A pro workflow: notes, consistency, and a repeatable consultation system.
-            </p>
+        <section
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.1rem",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "0.96rem",
+              fontWeight: 500,
+              color: t.text,
+            }}
+          >
+            {c.modulesTitle}
           </div>
-
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>Confidence Map</h3>
-            <p style={styles.cardText}>
-              The “why”: what to enhance, what to soften, and how to maintain it.
-            </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1rem",
+            }}
+          >
+            <ModuleCard
+              title={c.hvTitle}
+              desc={c.hvDesc}
+              cta={c.hvCta}
+              tokens={t}
+              highlight
+            />
+            <ModuleCard
+              title={c.hfTitle}
+              desc={c.hfDesc}
+              cta={c.hfCta}
+              tokens={t}
+            />
+            <ModuleCard
+              title={c.spTitle}
+              desc={c.spDesc}
+              cta={c.spCta}
+              tokens={t}
+            />
           </div>
-        </div>
-      </section>
+        </section>
 
-      <div style={styles.divider} />
+        <footer
+          style={{
+            marginTop: "0.75rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.35rem",
+            fontSize: "0.78rem",
+            color: t.muted,
+          }}
+        >
+          <span>{c.smallLine}</span>
+          <span>{c.footerMicro}</span>
+        </footer>
 
-      <div id="how-it-works" style={styles.anchor} />
-      <section>
-        <h2 style={styles.sectionTitle}>How it works</h2>
-        <ul style={styles.list}>
-          <li>Upload a photo (or use a reference).</li>
-          <li>Answer a few questions (goal, maintenance, vibe).</li>
-          <li>Get a clean recommendation + next steps.</li>
-        </ul>
+        <style jsx global>{`
+          body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+              "SF Pro Text", "SF Pro Display", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+          }
 
-        <p style={styles.footerNote}>
-          Next: we can wire these buttons to real pages (e.g. <code>/vision</code>,{" "}
-          <code>/formula</code>) once those routes exist.
-        </p>
-      </section>
+          @media (max-width: 879px) {
+            main > div > section:nth-of-type(2) > div:nth-of-type(2) {
+              grid-template-columns: minmax(0, 1fr);
+            }
+          }
+        `}</style>
+      </div>
     </main>
+  );
+}
+
+function TopBar(props: {
+  theme: Theme;
+  setTheme: (t: Theme) => void;
+  lang: Lang;
+  setLang: (l: Lang) => void;
+  tokens: (typeof TOKENS)["light"];
+}) {
+  const { theme, setTheme, lang, setLang, tokens } = props;
+
+  return (
+    <header
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        borderRadius: 999,
+        border: `1px solid ${tokens.border}`,
+        backgroundColor: tokens.surface2,
+        padding: "0.5rem 0.75rem",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.88rem",
+          fontWeight: 500,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: tokens.textSecondary,
+        }}
+      >
+        Hair OS™
+      </div>
+
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.4rem",
+        }}
+      >
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            borderRadius: 999,
+            padding: "0.16rem",
+            border: `1px solid ${tokens.border}`,
+            backgroundColor: tokens.surface,
+          }}
+        >
+          <LangPill
+            label={COPY.en.langEn}
+            active={lang === "en"}
+            onClick={() => setLang("en")}
+            tokens={tokens}
+          />
+          <LangPill
+            label={COPY.zh.langZh}
+            active={lang === "zh"}
+            onClick={() => setLang("zh")}
+            tokens={tokens}
+          />
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          aria-label="Toggle theme"
+          style={{
+            borderRadius: 999,
+            border: `1px solid ${tokens.border}`,
+            backgroundColor: tokens.surface,
+            padding: "0.25rem 0.5rem",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            fontSize: "0.9rem",
+          }}
+        >
+          {theme === "dark" ? "☀️" : "🌙"}
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function LangPill(props: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  tokens: (typeof TOKENS)["light"];
+}) {
+  const { label, active, onClick, tokens } = props;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        border: "none",
+        borderRadius: 999,
+        padding: "0.2rem 0.8rem",
+        fontSize: "0.8rem",
+        fontWeight: 500,
+        cursor: "pointer",
+        backgroundColor: active ? tokens.text : "transparent",
+        color: active ? tokens.bg : tokens.textSecondary,
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
+function ModuleCard(props: {
+  title: string;
+  desc: string;
+  cta: string;
+  tokens: (typeof TOKENS)["light"];
+  highlight?: boolean;
+}) {
+  const { title, desc, cta, tokens, highlight } = props;
+  return (
+    <div
+      style={{
+        borderRadius: 20,
+        border: `1px solid ${tokens.border}`,
+        backgroundColor: highlight ? tokens.surface : tokens.surface2,
+        padding: "1.3rem 1.25rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.7rem",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.95rem",
+          fontWeight: 500,
+          color: tokens.text,
+        }}
+      >
+        {title}
+      </div>
+      <p
+        style={{
+          margin: 0,
+          fontSize: "0.86rem",
+          lineHeight: 1.7,
+          color: tokens.textSecondary,
+        }}
+      >
+        {desc}
+      </p>
+      <div
+        style={{
+          marginTop: "0.3rem",
+          fontSize: "0.82rem",
+          fontWeight: 500,
+          color: tokens.muted,
+        }}
+      >
+        {cta}
+      </div>
+    </div>
   );
 }
